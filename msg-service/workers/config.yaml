@@ -1,0 +1,41 @@
+---
+#Rabbit MQ Connection Info
+ConnectionInfo:
+  -
+    host:     "127.0.0.1"
+    port:     5672
+    user:     "guest"
+    password: "guest"
+  -
+    host:     "127.0.0.1"
+    port:     5672
+    user:     "chaoshu"
+    password: "chaoshu"
+
+#Workers Info Collection
+WorkerInfo:
+  -
+    enable:   true
+    name:     "EmailSender"
+    queue:    "email_queue"
+    keys:
+    - email
+    - Email
+    - EMAIL
+    payload:
+      Smtp:     smtp.126.com
+      Port:     25
+      User:     blackeye286@126.com
+      Password: blackeye286
+      Template: html_template
+  -
+    enable:   false
+    name:     "PhoneSender"
+    queue:    "phone_queue"
+    keys:
+    - phone
+    - Phone
+    - PHONE
+    payload:
+      OperatorUrl:  test        //短信运营商
+      Template:     msg_template

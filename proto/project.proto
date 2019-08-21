@@ -1,0 +1,235 @@
+syntax = "proto3";
+
+package proto;
+
+import  "common.proto";
+
+service ProjectService {
+    rpc NewProject (NewProjectReq) returns (Empty) {}
+
+}
+
+enum Status {
+    NotStart = 0;
+    Started = 1;
+    Completed = 2;
+}
+
+enum MemberType {
+    UnSet = 0;
+    Admin = 1;
+    Partner = 2;
+    Investor = 3;
+}
+
+
+//Request Information
+
+//Project
+message NewProjectReq {
+    int64 AdminId = 1;
+    string Summary = 2;
+    string Description = 3;
+    string Company = 4;
+    map<string, string> Images = 5;
+    int32 TargetValue = 6;
+    int32 StageCount = 7;
+    int32 MinValue = 8;
+}
+
+message ProjectStatusReq {
+    int64 ProjectId = 1;
+    Status Status = 2;
+}
+
+message ProjectContentsReq {
+    int64 ProjectId = 1;
+    map<string, string> Contents = 2;
+}
+
+message ProjectInfoReq {
+    int64 ProjectId = 1;
+    string Summary = 2;
+    string Description = 3;
+    string Commany = 4;
+    string EndTime = 5;
+}
+
+//Stage
+message StageItem {
+    int32 Balance = 1;
+    int32 Type = 2;
+    int32 MinValue = 3;
+    int32 MaxValue = 4;
+}
+
+message StageInforListReq {
+    int64 ProjectId = 1;
+    repeated StageItem StageItems = 2;
+}
+
+message StageLimitReq {
+    int64 StageId = 1;
+    int32 MaxValue = 2;
+    int32 MinValue = 3;
+}
+
+message StageTimeReq {
+    int64 StageId = 1;
+    string BeginTime = 2;
+    string EndTime = 3;
+}
+
+message StageStatusReq {
+    int64 StageId = 1;
+    Status Status = 2;
+}
+
+message StageInfoReq {
+    int64 ProjectId = 1;
+    int32 StageNumber = 2;
+}
+
+//Investment
+message NewInvestmentReq {
+    int64 UserId = 1;
+    int64 ProjectId = 2;
+    int32 StageNumber = 3;
+    int32 InvestmentValue = 4;
+    int32 InvestmentType = 5;
+    string WalletPath = 6;
+}
+
+message ProjectInvestmentReq {
+    int64 ProjectId = 1;
+    int32 StageNumber = 2;
+}
+
+message UserInvestmentReq {
+    int64 UserId = 1;
+}
+
+//NoticeNews
+message NewNoticeReq {
+    int64 ProjecId = 1;
+    string Title = 2;
+    string Description = 3;
+    BoolValue Status = 4;
+    string ExpireTime = 5;
+}
+
+message NoticeInfoReq {
+    int64 ProjectId = 1;
+    BoolValue Status = 2;
+}
+
+message NoticeUpdateReq {
+    int64 Id = 1;
+    string Title = 2;
+    string Description = 3;
+    BoolValue Status = 4;
+    string ExpireTime = 5;
+}
+
+//Member
+message NewMemberReq {
+    int64 ProjectId = 1;
+    int64 UserId =2;
+    map<string, string> Description = 3;
+    MemberType Type = 4;
+}
+
+message MemeberInfoReq {
+    int64 ProjectId = 1;
+}
+
+message MemberUpdateReq {
+    int64 Id = 1;
+    map<string, string> Description = 2;
+    MemberType MemberType = 3;
+}
+
+//Reply Information
+
+message NewProjectReply {
+    int64 Id = 1;
+}
+
+message ProjectInfoReply {
+    int64 Id = 1;
+    int64 AdminId = 2;
+    string Summary = 3;
+    string Description = 4;
+    string Company = 5;
+    map<string, string> Images = 6;
+    int32 TargetValue = 7;
+    int32 StageCount = 8;
+    int32 MinValue = 9;
+    string Classify = 10;
+    int32 Status = 11;
+    map<string, string> ContentItems = 12;
+    string CreateTime = 13;
+    string EndTime = 14;
+}
+
+message StageInfoReply {
+    int64 Id = 1;
+    int64 ProjectId = 2;
+    int32 StageNumber = 3;
+    int32 TargetValue = 4;
+    int32 TargetType = 5;
+    int32 MinValue = 6;
+    int32 MaxValue = 7;
+    int32 CompleteValue = 8;
+    int32 StageStatus = 9;
+    string BeginTime = 10;
+    string EndTime = 11;
+    string CreateTime = 12;
+    string UpdateTime = 13;
+}
+
+message InvestmentReply {
+    int64 Id = 1;
+    int64 UserId = 2;
+    int64 ProjectId = 3;
+    int32 StageNumber = 4;
+    int32 InvestmentValue = 5;
+    int32 InvestmentType = 6;
+    string WalletPath = 7;
+    int32 InvestmentStatus = 8;
+    string CreateTime = 9;
+    string UpdateTime = 10;
+}
+
+message InvestmentListReply {
+    repeated InvestmentReply InvestmentList = 1;
+}
+
+message NoticeReply {
+    int64 Id = 1;
+    int64 ProjectId = 2;
+    string Title = 3;
+    string Description = 4;
+    int32 Status = 5;
+    string CreateTime = 6;
+    string ExpireTime = 7;
+    string UpdateTime = 8;
+}
+
+message NoticeListReply {
+    repeated NoticeReply NoticeList = 1;
+}
+
+message MemeberReply {
+    int64 Id = 1;
+    int64 ProjectId = 2;
+    int64 UserId = 3;
+    map<string, string> Description = 4;
+    int32 MemberType = 5;
+    string JoinTime = 6;
+    string UpdateTime = 7;
+}
+
+message MemberListReply {
+    repeated MemeberReply MemberList = 1;
+}

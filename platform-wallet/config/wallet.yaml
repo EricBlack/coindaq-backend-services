@@ -1,0 +1,7 @@
+---
+  BTC:
+    rpc_host: "39.105.38.225:16591"
+    user: "bitcoinrpc"
+    password: "TestBitCoin001"
+    http_post_method: true
+    disable_tls: true

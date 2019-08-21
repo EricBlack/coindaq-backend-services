@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package proto;
+
+import  "common.proto";
+
+//1.Service
+service KycService {
+    rpc NewKycInfo (CreateKycReq) returns (KycReply) {}
+    rpc RejectKyc (HandleKycReq) returns (Empty) {}
+    rpc PassKyc (HandleKycReq) returns (Empty) {}
+    rpc QueryKycInfos (FilterReq) returns (KycListReply) {}
+}
+
+enum Stage {
+    KycStageUnkown = 0;
+    KycStageOne = 1;
+    KycStageTwo = 2;
+    KycStageThree = 3;
+}
+
+enum UserKind {
+    UserKindPerson = 0;
+    UserKindCompany = 1;
+}
+
+message CreateKycReq {
+    int64 UserId = 1;
+    Stage Stage  = 2;
+    UserKind Kind = 3;
+    map<string, string> Resource = 4;
+}
+
+message HandleKycReq {
+    int64 id = 1;
+}
+
+message FilterReq {
+    int64 UserId =1;
+    int32 State = 2;
+    Stage Stage = 3;
+}
+
+message KycReply {
+    int64 id = 1;
+}
+
+message KycInfoReply {
+    int64 Id = 1;
+    int64 UserId = 2;
+    Stage Stage = 3;
+    int32 State = 4;
+    int32 Kind = 5;
+    map<string, string> Resouce = 6;
+}
+
+message KycListReply {
+    repeated KycInfoReply KycInfos = 1;
+}

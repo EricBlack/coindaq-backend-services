@@ -1,0 +1,33 @@
+#应用运行模式,我们采用了gin框架,目前支持debug/release/test三种
+mode:
+  debug
+#应用的名称,以后扩展,用做应用标识，便于分布式计算
+name:
+  restgo演示
+#应用部署的访问协议,支持http/https两种
+protocal:
+  http
+#应用域名
+domain:
+  localhost
+#请求contextpath
+ctxpath:
+#服务器绑定的地址
+addr:
+  0.0.0.0
+#端口
+port:
+  8200
+#默认数据资源配置,数据库驱动类型为mysql,详情可以参开xorm
+datasource:
+    driver_name:
+      mysql
+    uri:
+      "root:123456@tcp(192.168.1.145:3306)/test?charset=utf8mb4"
+    max_idle:
+      10
+    max_open:
+      5
+    show_sql:
+      true
+

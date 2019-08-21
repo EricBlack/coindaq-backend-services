@@ -1,0 +1,49 @@
+syntax="proto3";
+
+package proto;
+
+enum BoolValue {
+    BNotSet = 0;
+    True = 1;
+    False = 2;
+}
+
+enum CoinType {
+    CNotSet = 0;
+    BTC = 1;
+    ETH = 2;
+    ERC20 = 3;
+}
+
+enum FactorType {
+    NotSet = 0;
+    EmailAuthType = 1;
+    PhoneAuthType = 2;
+    GoogleAuthType = 3;
+}
+
+enum KycStage {
+    KNotSet = 0;
+    KycStageOne = 1;
+    KycStageTwo = 2;
+    KycStageTree = 3;
+}
+
+enum KycState {
+    KSNotSet = 0;
+    Passed = 1;
+    Rejected = 2;
+}
+
+enum UserKind {
+    UNotSet = 0;
+    UserKindPerson = 1;
+    UserKindCompany = 2;
+}
+
+message Empty{}
+
+message IdReq {
+    int64 id = 1;
+}
+

@@ -1,0 +1,265 @@
+syntax = "proto3";
+
+package proto;
+
+import "common.proto";
+
+service ProjectService {
+    //Project API
+    rpc NewProject (NewProjectReq) returns (Empty) {}
+    rpc QueryProjectById (IdReq) returns (ProjectInfoReply) {}
+    rpc UpdateProjectInfo (ProjectInfoReq) returns (Empty) {}
+    rpc UpdateProjectContents (ProjectContentsReq) returns (Empty) {}
+    rpc UpdateProjectStatus (ProjectStatusReq) returns (Empty) {}
+
+    //Stage Info API
+    rpc CreateStageInformation (StageInforListReq) returns (Empty) {}
+    rpc QueryStageInformationById (IdReq) returns (StageInfoReply) {}
+    rpc QueryStageInformation (StageInfoReq) returns (StageInfoReply) {}
+    rpc UpdateStageTimeInfo (StageTimeReq) returns (Empty) {}
+    rpc UpdateStageLimitation (StageLimitReq) returns (Empty) {}
+    rpc UpdateStageStatus (StageStatusReq) returns (Empty) {}
+
+    //Investment Info API
+    rpc NewInvestment (NewInvestmentReq) returns (Empty) {}
+    rpc QueryInvestmentById (IdReq) returns (InvestmentReply) {}
+    rpc QueryProjectInvestments (ProjectInvestmentReq) returns (InvestmentListReply) {}
+    rpc QueryUserInvestments (UserInvestmentReq) returns (InvestmentListReply) {}
+
+    //Notice News API
+    rpc NewNotice (NewNoticeReq) returns (Empty) {}
+    rpc QueryNoticeById (IdReq) returns (NoticeReply) {}
+    rpc QueryNotices (NoticeInfoReq) returns (NoticeListReply) {}
+    rpc UpdateNotice (NoticeUpdateReq) returns (Empty) {}
+
+    //Member Info API
+    rpc AddProjectMember (NewMemberReq) returns (Empty) {}
+    rpc QueryMemberById (IdReq) returns (MemeberReply) {}
+    rpc QueryMembers (MemeberInfoReq) returns (MemberListReply) {}
+    rpc UpdateMemberInfo (MemberUpdateReq) returns (Empty) {}
+}
+
+enum Status {
+    NotStart = 0;
+    Started = 1;
+    Completed = 2;
+}
+
+enum MemberType {
+    MUnSet = 0;
+    Admin = 1;
+    Partner = 2;
+    Investor = 3;
+}
+
+
+//Request Information
+
+//Project
+message NewProjectReq {
+    int64 adminId = 1;
+    string summary = 2;
+    string description = 3;
+    string company = 4;
+    map<string, string> images = 5;
+    int32 targetValue = 6;
+    int32 stageCount = 7;
+    int32 minValue = 8;
+}
+
+message ProjectStatusReq {
+    int64 projectId = 1;
+    Status status = 2;
+}
+
+message ProjectContentsReq {
+    int64 projectId = 1;
+    map<string, string> contents = 2;
+}
+
+message ProjectInfoReq {
+    int64 projectId = 1;
+    string summary = 2;
+    string description = 3;
+    string commany = 4;
+    string endTime = 5;
+}
+
+//Stage
+message StageItem {
+    int32 balance = 1;
+    CoinType type = 2;
+    int32 minValue = 3;
+    int32 maxValue = 4;
+}
+
+message StageInforListReq {
+    int64 projectId = 1;
+    repeated StageItem stageItems = 2;
+}
+
+message StageLimitReq {
+    int64 stageId = 1;
+    int32 maxValue = 2;
+    int32 minValue = 3;
+}
+
+message StageTimeReq {
+    int64 stageId = 1;
+    string beginTime = 2;
+    string endTime = 3;
+}
+
+message StageStatusReq {
+    int64 stageId = 1;
+    Status status = 2;
+}
+
+message StageInfoReq {
+    int64 projectId = 1;
+    int32 stageNumber = 2;
+}
+
+//Investment
+message NewInvestmentReq {
+    int64 userId = 1;
+    int64 projectId = 2;
+    int32 stageNumber = 3;
+    int32 investmentValue = 4;
+    CoinType investmentType = 5;
+    string walletPath = 6;
+}
+
+message ProjectInvestmentReq {
+    int64 projectId = 1;
+    int32 stageNumber = 2;
+}
+
+message UserInvestmentReq {
+    int64 userId = 1;
+}
+
+//NoticeNews
+message NewNoticeReq {
+    int64 projecId = 1;
+    string title = 2;
+    string description = 3;
+    BoolValue status = 4;
+    string expireTime = 5;
+}
+
+message NoticeInfoReq {
+    int64 projectId = 1;
+    BoolValue status = 2;
+}
+
+message NoticeUpdateReq {
+    int64 id = 1;
+    string title = 2;
+    string description = 3;
+    BoolValue status = 4;
+    string expireTime = 5;
+}
+
+//Member
+message NewMemberReq {
+    int64 projectId = 1;
+    int64 userId =2;
+    map<string, string> description = 3;
+    MemberType type = 4;
+}
+
+message MemeberInfoReq {
+    int64 projectId = 1;
+}
+
+message MemberUpdateReq {
+    int64 id = 1;
+    map<string, string> description = 2;
+    MemberType memberType = 3;
+}
+
+//Reply Information
+
+message NewProjectReply {
+    int64 id = 1;
+}
+
+message ProjectInfoReply {
+    int64 id = 1;
+    int64 adminId = 2;
+    string summary = 3;
+    string description = 4;
+    string company = 5;
+    map<string, string> images = 6;
+    int32 targetValue = 7;
+    int32 stageCount = 8;
+    int32 minValue = 9;
+    string classify = 10;
+    Status status = 11;
+    map<string, string> contentItems = 12;
+    string createTime = 13;
+    string endTime = 14;
+}
+
+message StageInfoReply {
+    int64 id = 1;
+    int64 projectId = 2;
+    int32 stageNumber = 3;
+    int32 targetValue = 4;
+    CoinType targetType = 5;
+    int32 minValue = 6;
+    int32 maxValue = 7;
+    int32 completeValue = 8;
+    Status stageStatus = 9;
+    string beginTime = 10;
+    string endTime = 11;
+    string createTime = 12;
+    string updateTime = 13;
+}
+
+message InvestmentReply {
+    int64 id = 1;
+    int64 userId = 2;
+    int64 projectId = 3;
+    int32 stageNumber = 4;
+    int32 investmentValue = 5;
+    CoinType investmentType = 6;
+    string walletPath = 7;
+    BoolValue investmentStatus = 8;
+    string createTime = 9;
+    string updateTime = 10;
+}
+
+message InvestmentListReply {
+    repeated InvestmentReply investmentList = 1;
+}
+
+message NoticeReply {
+    int64 id = 1;
+    int64 projectId = 2;
+    string title = 3;
+    string description = 4;
+    BoolValue status = 5;
+    string createTime = 6;
+    string expireTime = 7;
+    string updateTime = 8;
+}
+
+message NoticeListReply {
+    repeated NoticeReply noticeList = 1;
+}
+
+message MemeberReply {
+    int64 id = 1;
+    int64 projectId = 2;
+    int64 userId = 3;
+    map<string, string> description = 4;
+    MemberType memberType = 5;
+    string joinTime = 6;
+    string updateTime = 7;
+}
+
+message MemberListReply {
+    repeated MemeberReply memberList = 1;
+}

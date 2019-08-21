@@ -1,0 +1,14 @@
+syntax="proto3";
+
+package proto;
+
+enum BoolValue {
+    False = 0;
+    True = 1;
+}
+
+message Empty{}
+
+message IdReq {
+    int64 Id = 1;
+}

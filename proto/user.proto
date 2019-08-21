@@ -1,0 +1,149 @@
+syntax = "proto3";
+
+package proto;
+
+import  "common.proto";
+
+//1.Service
+service UserService {
+  rpc Signup (RegisterReq) returns (UserReply) {}
+  rpc Signin (AuthReq) returns (UserReply) {}
+  rpc Logout (UserReq) returns (Empty) {}
+  rpc ActivateNewUser (ActivateReq) returns (CommonReply) {}
+  rpc ForgetPasswordViaEmail (ForgetEmailReq) returns (ForgetReply) {}
+  rpc ForgetPasswordViaPhone (ForgetPhoneReq) returns (ForgetReply) {}
+  rpc ResetPassword (ModifyPasswordReq) returns (CommonReply) {}
+  rpc UpdateUserInfo (ModifyUserReq) returns (CommonReply) {}
+  rpc QueryUserById (IdReq) returns (UserReply) {}
+  rpc QueryUsers (QueryUserReq) returns (UserListReply) {}
+  rpc QueryInvitedUsersByInvitorId (UserReq) returns (UserListReply) {}
+  rpc QueryInvitorInfoById (IdReq) returns (InviterInfoReply) {}
+}
+
+//2.Request
+
+//Register
+message RegisterReq {
+  string email = 1;
+  string password = 2;
+  string countryCode = 3;
+  string displayName = 4;
+  bool   enableCode = 5;
+  string inviteCode = 6;
+  string registerIp = 7;
+  string deviceId = 8;
+}
+
+//Login
+message AuthReq {
+  string email = 1;
+  string password = 2;
+}
+
+//Logout
+message UserReq {
+  int64 id = 1;
+}
+
+//Activate User
+message ActivateReq {
+  int64 userId = 1;
+  string secret = 2;
+}
+
+//Forget Password via Email or Phone
+message ForgetEmailReq {
+  string email = 1;
+}
+
+message ForgetPhoneReq {
+  string phone = 1;
+}
+
+//Modify Password
+message ModifyPasswordReq {
+  int64 id = 1;
+  string code = 2;
+  string password = 3;
+}
+
+//Update User info
+message ModifyUserReq {
+  int64 id = 1;
+  string displayName = 2;
+  string countryCode = 3;
+  string realName = 4;
+  string identityId = 5;
+  map<string, string> kycPhotos = 6;
+  map<string, string> kycVedios = 7;
+  int32 kycStage = 8;
+}
+
+//Query User info
+message QueryUserReq {
+  int64 Id = 1;
+  string Email = 2;
+  string DisplayName = 3;
+  string PhoneNumber = 4;
+  int32 State = 5;
+  BoolValue Activated = 6;
+  string CountryCode = 7;
+  string RealName = 8;
+  BoolValue Disabled = 9;
+  string IdentityId = 10;
+  map<string, string> KycPhotos = 11;
+  map<string, string>	KycVedios = 12;
+  int32 KycStage = 13;
+  int32 Kind = 14;
+}
+
+//3.Response
+message UserReply {
+  int64 id = 1;
+  string email = 2;
+  string displayName = 3;
+  string phoneNumber = 4;
+  int32 state = 5;
+  BoolValue activated = 6;
+  string countryCode = 7;
+  string realName = 8;
+  BoolValue disabled = 9;
+  string identityId = 10;
+  map<string, string> kycPhotos = 11;
+  map<string, string>	kycVedios = 12;
+  int32 kycStage = 13;
+  string inviteCode = 14;
+  string registIp = 15;
+  string deviceId = 16;
+}
+
+//Forget Password
+message ForgetReply{
+  int64 id = 1;
+  string information = 2;
+  string secrect = 3;
+}
+
+//Update Password
+message UpdatePwdReply {
+  int64 id = 1;
+  string message = 2;
+}
+
+message UserListReply {
+  repeated UserReply users = 1;
+}
+
+message InviterInfoReply {
+    int64 Id = 1;
+    int64 UserId = 2;
+    int64 InviterId = 3;
+    string CreateAt = 4;
+}
+
+
+message CommonReply {
+  int64 code = 1;
+  string message = 2;
+  map<string, string> data = 3;
+}
